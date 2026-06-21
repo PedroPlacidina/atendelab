@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3307
--- Tempo de geração: 09/06/2026 às 02:27
+-- Host: 127.0.0.1:3307
+-- Tempo de geração: 21/06/2026 às 17:57
 -- Versão do servidor: 10.4.32-MariaDB
--- Versão do PHP: 8.0.30
+-- Versão do PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -40,6 +40,13 @@ CREATE TABLE `atendimentos` (
   `criado_em` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Despejando dados para a tabela `atendimentos`
+--
+
+INSERT INTO `atendimentos` (`id`, `pessoa_id`, `tipo_atendimento`, `usuario_id`, `data_atendimento`, `hora_atendimento`, `descricao`, `observacao`, `status`, `criado_em`) VALUES
+(1, 1, 1, 1, '2026-06-11', '22:26:57', 'O aluno Pedro veio tirar uma dúvida sobre a instalação do XAMPP.', 'Atendimento realizado via balcão.', 'ABERTO', '2026-06-12 01:26:57');
+
 -- --------------------------------------------------------
 
 --
@@ -56,6 +63,14 @@ CREATE TABLE `pessoas` (
   `status` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Despejando dados para a tabela `pessoas`
+--
+
+INSERT INTO `pessoas` (`id`, `nome`, `documento`, `telefone`, `curso`, `periodo`, `status`) VALUES
+(1, 'Maria Oliveira', '12345678900', '(47) 99999-8888', 'Engenharia de Software', '3º Período', 'ativo'),
+(2, 'Carlos Souza', '98765432100', '(47) 98888-7777', 'Sistemas de Informação', '5º Período', 'ativo');
+
 -- --------------------------------------------------------
 
 --
@@ -68,6 +83,14 @@ CREATE TABLE `tipos_atendimentos` (
   `descricao` text NOT NULL,
   `status` enum('ativo','inativo','','') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `tipos_atendimentos`
+--
+
+INSERT INTO `tipos_atendimentos` (`id`, `nome`, `descricao`, `status`) VALUES
+(1, 'Dúvida Acadêmica', 'Atendimento para tirar dúvidas sobre matérias e notas.', 'ativo'),
+(2, 'Solicitação de Documento', 'Pedido de histórico escolar ou certificados.', 'ativo');
 
 -- --------------------------------------------------------
 
@@ -90,7 +113,8 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `nome`, `email`, `senha`, `perfil`, `status`, `criado_em`) VALUES
-(1, 'Administrador', 'admin@atendelab.com', '$2y$10$J9P2kU2BAMZ3TZcuxTsW4e1D/lka8EocYHzvyoOZmCNcWDQz3RuVC', 'admin', 'ativo', '2026-06-02 00:22:41');
+(1, 'Administrador', 'admin@atendelab.com', '$2y$10$GZkTPC/UMxPLey9DWXNNzuW4aTvaS5nHeE2OZYRx0FIjIXtOaFl1i', 'admin', 'ativo', '2026-06-02 00:22:41'),
+(3, 'Bruxo', 'Bruxo@gmail.com', '$2y$10$ZWP7upA5QGhu4DvWO198hOL3hkzbEzIllSgN40e3CEj.2dPpqWbS.', '', 'ativo', '2026-06-12 01:10:13');
 
 --
 -- Índices para tabelas despejadas
@@ -133,25 +157,25 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de tabela `atendimentos`
 --
 ALTER TABLE `atendimentos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de tabela `pessoas`
 --
 ALTER TABLE `pessoas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `tipos_atendimentos`
 --
 ALTER TABLE `tipos_atendimentos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Restrições para tabelas despejadas
