@@ -68,21 +68,18 @@ class AtendimentosController
     {
         $pessoaId = filter_var($_POST['pessoa_id'] ?? null, FILTER_VALIDATE_INT);
         $tipoId = filter_var($_POST['tipo_atendimento_id'] ?? null, FILTER_VALIDATE_INT);
-        $usuarioId = filter_var($_POST['usuario_id'] ?? null, FILTER_VALIDATE_INT);
+    
+        if (session_status() === PHP_SESSION_NONE) session_start();
+        $usuarioId = $_SESSION['usuario']['id'] ?? null;
         
+        // 3. Pega os outros campos
         $descricao = trim($_POST['descricao'] ?? '');
         $data = $_POST['data_atendimento'] ?? '';
-        $hora = $_POST['hora_atendimento'] ?? ''; // Nome do seu banco
+        $hora = $_POST['hora_atendimento'] ?? ''; 
         $status = $_POST['status'] ?? 'aberto';
 
-        if (!$pessoaId || !$tipoId || !$usuarioId || 
-            $descricao === '' || $data === '' || $hora === '') {
+        if (!$pessoaId || !$tipoId || !$usuarioId || $descricao === '' || $data === '' || $hora === '') {
             $this->json(['erro' => 'Preencha os campos obrigatórios.'], 422);
-            return;
-        }
-
-        if (!in_array($status, ['aberto', 'em_andamento', 'concluido'], true)) {
-            $this->json(['erro' => 'Status inicial inválido.'], 422);
             return;
         }
 
@@ -124,7 +121,6 @@ class AtendimentosController
             return;
         }
 
-        // Validação da página 47: Se concluir, precisa de observação
         if ($status === 'concluido' && $observacao === '') {
             $this->json(['erro' => 'Informe a observação final para concluir.'], 422);
             return;
